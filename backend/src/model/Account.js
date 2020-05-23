@@ -11,9 +11,10 @@ class Account extends Model {
         })
     }
 
-    static associate(models) {
-        this.belongsTo(models.AccountType, { foreignKey: 'account_types_id', as: 'account_type'});
-    }
+    static associate(models) {[
+        this.belongsTo(models.AccountType, { foreignKey: 'account_types_id', as: 'account_type'}),
+        this.hasMany(models.Transaction, { foreignKey: 'account_id', as: 'transaction'})
+    ];}
 }
 
 module.exports = Account;

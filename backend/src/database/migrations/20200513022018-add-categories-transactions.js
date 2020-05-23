@@ -7,7 +7,7 @@ module.exports = {
       'category_id',
       {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
         references: {model: 'categories', key: 'id'},
         onUpdate: 'CASCADE',
         onDelete: 'RESTRICT',
