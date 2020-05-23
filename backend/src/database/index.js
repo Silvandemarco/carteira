@@ -6,7 +6,10 @@ const AccountType = require('../model/AccountType');
 
 const connection = new Sequelize(dbConfig);
 
-Account.init(connection);
 AccountType.init(connection);
+Account.init(connection);
+
+Account.associate(connection.models);
+AccountType.associate(connection.models);
 
 module.exports = connection;

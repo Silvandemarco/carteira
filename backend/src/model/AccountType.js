@@ -8,6 +8,9 @@ class AccountType extends Model {
             sequelize
         })
     }
+    static associate(models) {
+        this.hasMany(models.Account, { foreignKey: 'account_types_id', as: 'accounts'});
+    }
 }
 
 module.exports = AccountType;
