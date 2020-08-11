@@ -1,12 +1,36 @@
 const Transaction = require('../model/Transaction');
 const Account = require('../model/Account');
 const Categorie = require('../model/Categorie');
+const { Op } = require("sequelize");
 
 module.exports = {
     async index(req, res) {
-        const transactions = await Transaction.findAll();
+        
+        const { accounts, category = 0, from_date = new Date(), to_date = new Date() } = req.query;
 
-        return res.json(transactions);
+        const where = {};
+        where.date = {
+            [Op.between]: [from_date, to_date] 
+        }
+        if (accounts !== undefined) {
+            where.account_id = accounts;
+        }
+        if (category !== 0){
+            where.category_id = category;
+        }
+
+        const transactions = await Transaction.findAll({ 
+            include: [
+                { association: 'category'},
+                { association: 'account'}
+            ],
+            order: [
+                ['date', 'DESC']
+            ],
+                where: where
+        });
+
+        return res.json(transactions);    
     },
     async store(req, res) {
         const { description, value, date, account_id, category_id } = req.body;
